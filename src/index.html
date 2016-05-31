@@ -5,6 +5,11 @@
   <title>Angular2OfflineApplication</title>
   <base href=".">
   <link rel="stylesheet" href="vendor/purecss/build/pure-min.css">
+  <style>
+    body {
+      line-height: 1.75em;
+    }
+  </style>
   {{#unless environment.production}}
   <script src="/ember-cli-live-reload.js" type="text/javascript"></script>
   {{/unless}}
@@ -25,7 +30,6 @@
     <script>
       System.import('system-config.js').then(function () {
         System.import('main');
-        
       }).catch(console.error.bind(console));
     </script>
     

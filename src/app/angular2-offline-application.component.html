@@ -1,10 +1,14 @@
 <div class="angular2-offline-application">
-  <span class="button-success pure-button" [hidden]=!isOnline >Online</span>
-  <span class="button-error pure-button" [hidden]=isOnline >Offline</span>
-  <h1>Angular2 Offline Application with Firebase</h1>
-
+  <span class="button-success pure-button" [hidden]=!isOnline>Online</span>
+  <span class="button-error pure-button" [hidden]=isOnline>Offline</span>
+  <h1>Tell the world your secrets!</h1>
+  <p>This is a simple offline application using sw-toolbox and firebase.</p>
+  <p>If you have any questions regarding the implementation please open an issue on github.</p>
+  <a href="https://github.com/dominikstrasser/angular2-dynamic-components" class="pure-button pure-button-primary">View on Github</a>
+  <button class="pure-button button-secondary" (click)=toggleTutorial()>Tutorial</button>
+  <ds-tutorial [hidden]=isTutorialHidden></ds-tutorial>
+  <hr />
   <ds-input (onEnter)="sendMessage($event)"></ds-input>
-  
-  <ds-list [listItems]=listItems ></ds-list>
-  
+
+  <ds-list [listItems]=listItems></ds-list>
 </div>

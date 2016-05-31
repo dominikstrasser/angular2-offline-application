@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { HTTP_PROVIDERS } from '@angular/http';
 import { DsInputComponent } from './ds-input';
 import { DsListComponent } from './ds-list';
+import { DsTutorialComponent } from './ds-tutorial';
 
 import 'vendor/firebase/firebase.js';
 declare var firebase;
@@ -15,7 +17,8 @@ export interface IListItem {
   selector: 'angular2-offline-application-app',
   templateUrl: 'angular2-offline-application.component.html',
   styleUrls: ['angular2-offline-application.component.css'],
-  directives: [DsInputComponent, DsListComponent]
+  directives: [DsInputComponent, DsListComponent, DsTutorialComponent],
+  providers: [HTTP_PROVIDERS]
 })
 export class Angular2OfflineApplicationAppComponent {
 
@@ -25,9 +28,11 @@ export class Angular2OfflineApplicationAppComponent {
   public connectionRef;
   public isOnline = true;
   public isPersistingData = false;
-  public gettingPersistingData = false;
-  constructor() {
+  public isTutorialHidden = true;
+  
+  constructor() {}
 
+  ngOnInit() {
     var config = {
       apiKey: "AIzaSyBmxmlZUo_cvikhAgA0GLfD0OOkWM1IJxw",
       authDomain: "offline-application-41a3e.firebaseapp.com",
@@ -43,22 +48,22 @@ export class Angular2OfflineApplicationAppComponent {
   }
 
   initDisconnectListener() {
-    console.log('initDisconnectListener');
     firebase.database().ref('.info/connected').on('value', (connectedSnap) => {
-      console.log(connectedSnap.val());
       if (connectedSnap.val() === true) {
         this.isOnline = true;
       } else {
         this.isOnline = false;
-        if (!this.listItems.length) setTimeout(() => this.getPersistedData(), 1000);
+        if (!this.listItems.length) setTimeout(() => this.getPersistedData(), 2000);
       }
     });
   }
 
+  toggleTutorial() {
+    this.isTutorialHidden = !this.isTutorialHidden;
+  }
 
   initChildAddedListener() {
     this.messageRef.on('child_added', (snapshot) => {
-      console.log('child_added');
       this.listItems.unshift(snapshot.val());
       if (this.isPersistingData) return;
       setTimeout(() => this.persistData(), 1000);
@@ -74,15 +79,12 @@ export class Angular2OfflineApplicationAppComponent {
 
 
   getPersistedData() {
-    if(this.isOnline) return;
-    console.log('getPersistedData');
+    if (this.isOnline) return;
     this.listItems = JSON.parse(localStorage.getItem('listItems')) || [];
   }
 
-  sendMessage(event) {
-    let item: IListItem = {
-      message: event.message,
-    }
+
+  sendMessage(item: IListItem) {
     this.messageRef.push(item);
   }
 }

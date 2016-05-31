@@ -3,6 +3,7 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
+  'marked': 'vendor/marked/marked.min.js'
 };
 
 /** User packages configuration. */
@@ -33,6 +34,8 @@ const barrels: string[] = [
   'app/ds-list',
   'app/spinner',
   'app/ds-spinner',
+  'app/tutorial',
+  'app/ds-tutorial',
   /** @cli-barrel */
 ];
 

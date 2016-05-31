@@ -15,6 +15,7 @@ module.exports = function(defaults) {
       'sw-toolbox/**/*.+(js)',
       'purecss/**/*.+(css)',
       'firebase/**/*.+(js)',
+      'marked/**/*.+(js)',
     ]
   });
 };
