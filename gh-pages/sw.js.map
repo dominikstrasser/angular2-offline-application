@@ -1,0 +1,1 @@
+{"version":3,"file":"sw.js","sourceRoot":"","sources":["sw.ts"],"names":[],"mappings":"AAAA,aAAa,CAAC,iCAAiC,CAAC,CAAC;AAIjD,OAAO,CAAC,MAAM,CAAC,GAAG,CAAC,GAAG,EAAE,OAAO,CAAC,OAAO,CAAC,CAAC","sourcesContent":["importScripts('vendor/sw-toolbox/sw-toolbox.js');\n\ndeclare var toolbox;\n\ntoolbox.router.get('*', toolbox.fastest);"]}
