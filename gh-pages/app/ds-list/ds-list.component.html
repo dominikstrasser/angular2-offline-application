@@ -1,0 +1,6 @@
+<div class="ds-list">
+  <ds-spinner [hidden]=listItems.length></ds-spinner>
+  <div *ngFor="let item of listItems" [hidden]=!listItems.length>
+    <h4>{{item.message}}</h4>
+  </div>
+</div>
