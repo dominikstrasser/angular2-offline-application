@@ -10,9 +10,7 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "prepages": "ng build",
-    "pages": "rm -rf gh-pages && cp -r dist gh-pages && git subtree push --prefix gh-pages origin gh-pages",
-    "postpages": "git commit -am 'updated gh-pages' && git push"
+    "pages": "rm -rf gh-pages && cp -r dist gh-pages && git subtree push --prefix gh-pages origin gh-pages"
   },
   "private": true,
   "dependencies": {
