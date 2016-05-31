@@ -2,7 +2,9 @@
  * User Configuration.
  **********************************************************************************************/
 /** Map relative paths to URLs. */
-var map = {};
+var map = {
+    'marked': 'vendor/marked/marked.min.js'
+};
 /** User packages configuration. */
 var packages = {};
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +29,8 @@ var barrels = [
     'app/ds-list',
     'app/spinner',
     'app/ds-spinner',
+    'app/tutorial',
+    'app/ds-tutorial',
 ];
 var cliSystemConfigPackages = {};
 barrels.forEach(function (barrelName) {
