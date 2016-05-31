@@ -1,3 +1,10 @@
-<h1>
-  {{title}}
-</h1>
+<div class="angular2-offline-application">
+  <span class="button-success pure-button" [hidden]=!isOnline >Online</span>
+  <span class="button-error pure-button" [hidden]=isOnline >Offline</span>
+  <h1>Angular2 Offline Application with Firebase</h1>
+
+  <ds-input (onEnter)="sendMessage($event)"></ds-input>
+  
+  <ds-list [listItems]=listItems ></ds-list>
+  
+</div>

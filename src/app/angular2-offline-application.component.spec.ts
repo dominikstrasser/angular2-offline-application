@@ -14,9 +14,4 @@ describe('App: Angular2OfflineApplication', () => {
       inject([Angular2OfflineApplicationAppComponent], (app: Angular2OfflineApplicationAppComponent) => {
     expect(app).toBeTruthy();
   }));
-
-  it('should have as title \'angular2-offline-application works!\'',
-      inject([Angular2OfflineApplicationAppComponent], (app: Angular2OfflineApplicationAppComponent) => {
-    expect(app.title).toEqual('angular2-offline-application works!');
-  }));
 });
