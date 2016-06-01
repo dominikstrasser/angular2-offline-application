@@ -4,7 +4,7 @@ The example uses:
 
 * [sw-toolbox](https://github.com/GoogleChrome/sw-toolbox)
 * [Firebase](https://firebase.google.com)
-* [PureCss](https://purecss.io)
+* [PureCss](http://purecss.io)
 * [SpinKit](http://tobiasahlin.com/spinkit/)
 
 
