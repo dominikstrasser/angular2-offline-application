@@ -4,8 +4,13 @@ i {
 
 h4 {
   margin-top: 0px;
+  margin-bottom: 0px;
 }
 
-div {
-  line-height: 1rem;
+.list-item {
+  padding: 1rem; 
+}
+
+.list-item:nth-child(2n+1) {
+  background: #fafafa;
 }

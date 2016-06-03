@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IListItem } from '../';
 import { DsSpinnerComponent } from '../ds-spinner';
 
@@ -12,10 +12,16 @@ import { DsSpinnerComponent } from '../ds-spinner';
 export class DsListComponent implements OnInit {
 
   @Input('listItems') listItems: IListItem[];
+  @Output('onRemove') onRemove = new EventEmitter();
   
   constructor() {}
 
+  removeItem(item) {
+    this.onRemove.next(item);
+  }
+
   ngOnInit() {
+    
   }
 
 }

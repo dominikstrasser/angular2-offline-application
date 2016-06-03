@@ -1,5 +1,22 @@
 .angular2-offline-application {
-  padding: 1rem;
+  
+}
+
+.header {
+    background: url('header.jpeg');
+    background-size: cover;
+    padding: 3rem;
+    color: white;
+}
+
+.main {
+    padding: 1rem;
+}
+
+.network-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
 }
 
 .button-success,
@@ -25,3 +42,4 @@
 .button-secondary {
     background: rgb(66, 184, 221); /* this is a light blue */
 }
+

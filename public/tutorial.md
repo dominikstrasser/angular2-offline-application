@@ -1,3 +1,11 @@
+## Intro
+
+This is a simple offline application using sw-toolbox and firebase.
+If you have any questions regarding the implementation please open an issue on github.
+
+** The "offline feature" is only available in <a href="https://jakearchibald.github.io/isserviceworkerready/">modern browsers</a> **
+
+
 ## Setup
 
 The example uses:

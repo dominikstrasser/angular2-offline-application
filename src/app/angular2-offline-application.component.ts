@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { DsInputComponent } from './ds-input';
 import { DsListComponent } from './ds-list';
 import { DsTutorialComponent } from './ds-tutorial';
-
+import { DsLoginComponent } from './ds-login';
 import 'vendor/firebase/firebase.js';
 declare var firebase;
 
 export interface IListItem {
   message: string,
+  key?: string
 }
 
 
@@ -17,8 +18,9 @@ export interface IListItem {
   selector: 'angular2-offline-application-app',
   templateUrl: 'angular2-offline-application.component.html',
   styleUrls: ['angular2-offline-application.component.css'],
-  directives: [DsInputComponent, DsListComponent, DsTutorialComponent],
-  providers: [HTTP_PROVIDERS]
+  directives: [DsInputComponent, DsListComponent, DsTutorialComponent, DsLoginComponent],
+  providers: [HTTP_PROVIDERS],
+  encapsulation: ViewEncapsulation.None
 })
 export class Angular2OfflineApplicationAppComponent {
 
@@ -29,8 +31,9 @@ export class Angular2OfflineApplicationAppComponent {
   public isOnline = true;
   public isPersistingData = false;
   public isTutorialHidden = true;
-  
-  constructor() {}
+  public isLoggedIn = false;
+
+  constructor() { }
 
   ngOnInit() {
     var config = {
@@ -41,10 +44,22 @@ export class Angular2OfflineApplicationAppComponent {
     };
     firebase.initializeApp(config);
 
-    this.messageRef = firebase.database().ref('/messages');
+    this.messageRef = firebase.database().ref('/messages-auth');
 
     this.initDisconnectListener()
     this.initChildAddedListener();
+    this.initChildRemovedListener();
+    this.initAuthListener();
+  }
+
+  initAuthListener() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.isLoggedIn = true;
+      } else {
+        this.isLoggedIn = false;
+      }
+    });
   }
 
   initDisconnectListener() {
@@ -58,17 +73,54 @@ export class Angular2OfflineApplicationAppComponent {
     });
   }
 
+  onLogin(result) {
+    console.log(result);
+    var credential = firebase.auth.GithubAuthProvider.credential(result.credential.accessToken);
+    firebase.auth().signInWithCredential(credential).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  onRemove(item) {
+    this.messageRef.child(item.key).remove();
+  }
+
   toggleTutorial() {
     this.isTutorialHidden = !this.isTutorialHidden;
   }
 
   initChildAddedListener() {
     this.messageRef.on('child_added', (snapshot) => {
-      this.listItems.unshift(snapshot.val());
+      let item: IListItem = {
+        message: snapshot.val().message,
+        key: snapshot.key
+      }
+      this.listItems.unshift(item);
       if (this.isPersistingData) return;
       setTimeout(() => this.persistData(), 1000);
       this.isPersistingData = true;
     });
+  }
+
+  initChildRemovedListener() {
+    this.messageRef.on('child_removed', (snapshot) => {
+      let item: IListItem = {
+        message: snapshot.val().message,
+        key: snapshot.key
+      }
+      let index = this.getIndexForKey(item.key);
+      this.listItems.splice(index, 1);
+      if (this.isPersistingData) return;
+      setTimeout(() => this.persistData(), 1000);
+      this.isPersistingData = true;
+    });
+  }
+
+  getIndexForKey(_key) {
+    for (let i = 0; i < this.listItems.length; i++) {
+      if(_key == this.listItems[i].key) return i
+    }
+    return -1;
   }
 
 
@@ -85,6 +137,6 @@ export class Angular2OfflineApplicationAppComponent {
 
 
   sendMessage(item: IListItem) {
-    this.messageRef.push(item);
+    this.messageRef.push(item.message);
   }
 }

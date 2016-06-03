@@ -36,6 +36,7 @@ const barrels: string[] = [
   'app/ds-spinner',
   'app/tutorial',
   'app/ds-tutorial',
+  'app/ds-login',
   /** @cli-barrel */
 ];
 
