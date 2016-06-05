@@ -15,6 +15,6 @@
     <ds-login (onLogin)=onLogin($event) [isLoggedIn]=isLoggedIn></ds-login>
     <ds-input (onEnter)="sendMessage($event)" [hidden]=!isLoggedIn></ds-input>
 
-    <ds-list [listItems]=listItems (onRemove)=onRemove($event) ></ds-list>
+    <ds-list [listItems]=listItems [isLoggedIn]=isLoggedIn (onRemove)=onRemove($event) ></ds-list>
   </div>
 </div>

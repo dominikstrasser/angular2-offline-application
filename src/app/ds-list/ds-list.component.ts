@@ -12,16 +12,17 @@ import { DsSpinnerComponent } from '../ds-spinner';
 export class DsListComponent implements OnInit {
 
   @Input('listItems') listItems: IListItem[];
+  @Input('isLoggedIn') isLoggedIn: boolean;
   @Output('onRemove') onRemove = new EventEmitter();
-  
-  constructor() {}
+
+  constructor() { }
 
   removeItem(item) {
     this.onRemove.next(item);
   }
 
   ngOnInit() {
-    
+
   }
 
 }
