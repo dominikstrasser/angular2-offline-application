@@ -12,13 +12,25 @@ var core_1 = require('@angular/core');
 var ds_spinner_1 = require('../ds-spinner');
 var DsListComponent = (function () {
     function DsListComponent() {
+        this.onRemove = new core_1.EventEmitter();
     }
+    DsListComponent.prototype.removeItem = function (item) {
+        this.onRemove.next(item);
+    };
     DsListComponent.prototype.ngOnInit = function () {
     };
     __decorate([
         core_1.Input('listItems'), 
         __metadata('design:type', Array)
     ], DsListComponent.prototype, "listItems", void 0);
+    __decorate([
+        core_1.Input('isLoggedIn'), 
+        __metadata('design:type', Boolean)
+    ], DsListComponent.prototype, "isLoggedIn", void 0);
+    __decorate([
+        core_1.Output('onRemove'), 
+        __metadata('design:type', Object)
+    ], DsListComponent.prototype, "onRemove", void 0);
     DsListComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

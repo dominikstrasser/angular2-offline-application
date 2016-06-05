@@ -13,6 +13,7 @@ var http_1 = require('@angular/http');
 var ds_input_1 = require('./ds-input');
 var ds_list_1 = require('./ds-list');
 var ds_tutorial_1 = require('./ds-tutorial');
+var ds_login_1 = require('./ds-login');
 require('vendor/firebase/firebase.js');
 var Angular2OfflineApplicationAppComponent = (function () {
     function Angular2OfflineApplicationAppComponent() {
@@ -21,6 +22,7 @@ var Angular2OfflineApplicationAppComponent = (function () {
         this.isOnline = true;
         this.isPersistingData = false;
         this.isTutorialHidden = true;
+        this.isLoggedIn = false;
     }
     Angular2OfflineApplicationAppComponent.prototype.ngOnInit = function () {
         var config = {
@@ -33,6 +35,19 @@ var Angular2OfflineApplicationAppComponent = (function () {
         this.messageRef = firebase.database().ref('/messages');
         this.initDisconnectListener();
         this.initChildAddedListener();
+        this.initChildRemovedListener();
+        this.initAuthListener();
+    };
+    Angular2OfflineApplicationAppComponent.prototype.initAuthListener = function () {
+        var _this = this;
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                _this.isLoggedIn = true;
+            }
+            else {
+                _this.isLoggedIn = false;
+            }
+        });
     };
     Angular2OfflineApplicationAppComponent.prototype.initDisconnectListener = function () {
         var _this = this;
@@ -47,18 +62,53 @@ var Angular2OfflineApplicationAppComponent = (function () {
             }
         });
     };
+    Angular2OfflineApplicationAppComponent.prototype.onLogin = function (result) {
+        var credential = firebase.auth.GithubAuthProvider.credential(result.credential.accessToken);
+        firebase.auth().signInWithCredential(credential).catch(function (error) {
+            console.log(error);
+        });
+    };
+    Angular2OfflineApplicationAppComponent.prototype.onRemove = function (item) {
+        this.messageRef.child(item.key).remove();
+    };
     Angular2OfflineApplicationAppComponent.prototype.toggleTutorial = function () {
         this.isTutorialHidden = !this.isTutorialHidden;
     };
     Angular2OfflineApplicationAppComponent.prototype.initChildAddedListener = function () {
         var _this = this;
         this.messageRef.on('child_added', function (snapshot) {
-            _this.listItems.unshift(snapshot.val());
+            var item = {
+                message: snapshot.val().message,
+                name: snapshot.val().name,
+                key: snapshot.key
+            };
+            _this.listItems.unshift(item);
             if (_this.isPersistingData)
                 return;
             setTimeout(function () { return _this.persistData(); }, 1000);
             _this.isPersistingData = true;
         });
+    };
+    Angular2OfflineApplicationAppComponent.prototype.initChildRemovedListener = function () {
+        var _this = this;
+        this.messageRef.on('child_removed', function (snapshot) {
+            var item = {
+                key: snapshot.key
+            };
+            var index = _this.getIndexForKey(item.key);
+            _this.listItems.splice(index, 1);
+            if (_this.isPersistingData)
+                return;
+            setTimeout(function () { return _this.persistData(); }, 1000);
+            _this.isPersistingData = true;
+        });
+    };
+    Angular2OfflineApplicationAppComponent.prototype.getIndexForKey = function (_key) {
+        for (var i = 0; i < this.listItems.length; i++) {
+            if (_key == this.listItems[i].key)
+                return i;
+        }
+        return -1;
     };
     Angular2OfflineApplicationAppComponent.prototype.persistData = function () {
         localStorage.setItem('listItems', JSON.stringify(this.listItems));
@@ -70,6 +120,7 @@ var Angular2OfflineApplicationAppComponent = (function () {
         this.listItems = JSON.parse(localStorage.getItem('listItems')) || [];
     };
     Angular2OfflineApplicationAppComponent.prototype.sendMessage = function (item) {
+        item.name = firebase.auth().currentUser.displayName;
         this.messageRef.push(item);
     };
     Angular2OfflineApplicationAppComponent = __decorate([
@@ -78,8 +129,9 @@ var Angular2OfflineApplicationAppComponent = (function () {
             selector: 'angular2-offline-application-app',
             templateUrl: 'angular2-offline-application.component.html',
             styleUrls: ['angular2-offline-application.component.css'],
-            directives: [ds_input_1.DsInputComponent, ds_list_1.DsListComponent, ds_tutorial_1.DsTutorialComponent],
-            providers: [http_1.HTTP_PROVIDERS]
+            directives: [ds_input_1.DsInputComponent, ds_list_1.DsListComponent, ds_tutorial_1.DsTutorialComponent, ds_login_1.DsLoginComponent],
+            providers: [http_1.HTTP_PROVIDERS],
+            encapsulation: core_1.ViewEncapsulation.None
         }), 
         __metadata('design:paramtypes', [])
     ], Angular2OfflineApplicationAppComponent);

@@ -1,6 +1,7 @@
 <div class="ds-list">
   <ds-spinner [hidden]=listItems.length></ds-spinner>
-  <div *ngFor="let item of listItems" [hidden]=!listItems.length>
-    <h4>{{item.message}}</h4>
+  <div *ngFor="let item of listItems" [hidden]=!listItems.length class="list-item">
+    <h4><strong>{{item.name}}: </strong>{{item.message}}</h4>
+    <button class="pure-button button-error" [hidden]=!isLoggedIn (click)=removeItem(item)>Delete</button>
   </div>
 </div>

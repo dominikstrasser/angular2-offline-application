@@ -1,14 +1,20 @@
 <div class="angular2-offline-application">
-  <span class="button-success pure-button" [hidden]=!isOnline>Online</span>
-  <span class="button-error pure-button" [hidden]=isOnline>Offline</span>
-  <h1>Tell the world your secrets!</h1>
-  <p>This is a simple offline application using sw-toolbox and firebase.</p>
-  <p>If you have any questions regarding the implementation please open an issue on github.</p>
-  <a href="https://github.com/dominikstrasser/angular2-offline-application" class="pure-button pure-button-primary">View on Github</a>
-  <button class="pure-button button-secondary" (click)=toggleTutorial()>Tutorial</button>
-  <ds-tutorial [hidden]=isTutorialHidden></ds-tutorial>
-  <hr />
-  <ds-input (onEnter)="sendMessage($event)"></ds-input>
+  <div class="header">
+    <div class="network-status">
+      <span class="button-success pure-button" [hidden]=!isOnline>Online</span>
+      <span class="button-error pure-button" [hidden]=isOnline>Offline</span>
+    </div>
+    <h1>Angular 2 Offline Application</h1>
+    <h3>* using sw-toolbox and firebase</h3>
+  </div>
+  <div class="main">
+    <a href="https://github.com/dominikstrasser/angular2-offline-application" class="pure-button pure-button-primary">View on Github</a>
+    <button class="pure-button button-secondary" (click)=toggleTutorial()>I want to learn more about this project!</button>
+    <ds-tutorial [hidden]=isTutorialHidden></ds-tutorial>
+    <hr />
+    <ds-login (onLogin)=onLogin($event) [isLoggedIn]=isLoggedIn></ds-login>
+    <ds-input (onEnter)="sendMessage($event)" [hidden]=!isLoggedIn></ds-input>
 
-  <ds-list [listItems]=listItems></ds-list>
+    <ds-list [listItems]=listItems [isLoggedIn]=isLoggedIn (onRemove)=onRemove($event) ></ds-list>
+  </div>
 </div>

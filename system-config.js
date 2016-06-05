@@ -31,6 +31,7 @@ var barrels = [
     'app/ds-spinner',
     'app/tutorial',
     'app/ds-tutorial',
+    'app/ds-login',
 ];
 var cliSystemConfigPackages = {};
 barrels.forEach(function (barrelName) {
