@@ -1,0 +1,12 @@
+<div class="ds-login">
+  <div [hidden]=isLoggedIn>
+    <h3>You need to be logged in to post a message</h3>
+    <p>You can log in via Github OAuth.</p>
+    <p>The Authentication is needed to prevent spam</p>
+    <button class="pure-button button-success" (click)=performLogin()>Login via Github OAuth 2.0</button>
+    <p>{{errorMessage}}</p>
+  </div>
+  <div [hidden]=!isLoggedIn>
+    <button class="pure-button button-error" (click)=performLogout()>Logout</button>
+  </div>
+</div>
