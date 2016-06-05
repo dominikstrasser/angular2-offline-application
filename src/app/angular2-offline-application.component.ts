@@ -45,7 +45,7 @@ export class Angular2OfflineApplicationAppComponent {
     };
     firebase.initializeApp(config);
 
-    this.messageRef = firebase.database().ref('/messages-auth');
+    this.messageRef = firebase.database().ref('/messages');
 
     this.initDisconnectListener()
     this.initChildAddedListener();
@@ -75,7 +75,6 @@ export class Angular2OfflineApplicationAppComponent {
   }
 
   onLogin(result) {
-    console.log(result);
     var credential = firebase.auth.GithubAuthProvider.credential(result.credential.accessToken);
     firebase.auth().signInWithCredential(credential).catch(function (error) {
       console.log(error);
