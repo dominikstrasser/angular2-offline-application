@@ -8,8 +8,9 @@ import 'vendor/firebase/firebase.js';
 declare var firebase;
 
 export interface IListItem {
-  message: string,
-  key?: string
+  message?: string,
+  key?: string,
+  name?: string
 }
 
 
@@ -93,6 +94,7 @@ export class Angular2OfflineApplicationAppComponent {
     this.messageRef.on('child_added', (snapshot) => {
       let item: IListItem = {
         message: snapshot.val().message,
+        name: snapshot.val().name,
         key: snapshot.key
       }
       this.listItems.unshift(item);
@@ -105,7 +107,6 @@ export class Angular2OfflineApplicationAppComponent {
   initChildRemovedListener() {
     this.messageRef.on('child_removed', (snapshot) => {
       let item: IListItem = {
-        message: snapshot.val().message,
         key: snapshot.key
       }
       let index = this.getIndexForKey(item.key);
@@ -137,6 +138,7 @@ export class Angular2OfflineApplicationAppComponent {
 
 
   sendMessage(item: IListItem) {
-    this.messageRef.push(item.message);
+    item.name = firebase.auth().currentUser.displayName;
+    this.messageRef.push(item);
   }
 }

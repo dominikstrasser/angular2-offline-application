@@ -1,7 +1,7 @@
 <div class="ds-list">
   <ds-spinner [hidden]=listItems.length></ds-spinner>
   <div *ngFor="let item of listItems" [hidden]=!listItems.length class="list-item">
-    <h4>{{item.message}}</h4>
+    <h4><strong>{{item.name}}: </strong>{{item.message}}</h4>
     <button class="pure-button button-error" (click)=removeItem(item)>Delete</button>
   </div>
 </div>
